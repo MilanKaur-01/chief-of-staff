@@ -27,7 +27,6 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -39,7 +38,6 @@
       overflow-x: hidden;
     }
 
-    /* ── mesh background ── */
     body::before {
       content: '';
       position: fixed;
@@ -53,23 +51,9 @@
       z-index: 0;
     }
 
-    /* ── sparkle particles ── */
-    #sparkles {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1;
-      overflow: hidden;
-    }
-
-    .sp {
-      position: absolute;
-      bottom: -24px;
-      opacity: 0;
-      animation: floatUp linear infinite;
-      will-change: transform, opacity;
-    }
-
+    /* ── sparkles ── */
+    #sparkles { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+    .sp { position: absolute; bottom: -24px; opacity: 0; animation: floatUp linear infinite; will-change: transform, opacity; }
     @keyframes floatUp {
       0%   { opacity: 0;   transform: translateY(0)      rotate(0deg)   scale(0.4); }
       8%   { opacity: 1; }
@@ -78,22 +62,11 @@
     }
 
     /* ── layout ── */
-    .wrap {
-      position: relative;
-      z-index: 2;
-      max-width: 780px;
-      margin: 0 auto;
-      padding: 60px 24px 100px;
-    }
+    .wrap { position: relative; z-index: 2; max-width: 780px; margin: 0 auto; padding: 60px 24px 100px; }
 
     /* ── header ── */
-    header {
-      text-align: center;
-      margin-bottom: 64px;
-    }
-
+    header { text-align: center; margin-bottom: 64px; position: relative; }
     .crown { font-size: 2.4rem; display: block; margin-bottom: 10px; }
-
     header h1 {
       font-family: 'Playfair Display', serif;
       font-size: clamp(2.8rem, 7vw, 4.4rem);
@@ -106,7 +79,6 @@
       margin-bottom: 18px;
       letter-spacing: -0.01em;
     }
-
     .week-tag {
       display: inline-block;
       font-family: 'Playfair Display', serif;
@@ -119,18 +91,146 @@
       padding: 6px 20px;
       margin-bottom: 10px;
     }
+    .updated { display: block; font-size: 0.75rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
 
-    .updated {
-      display: block;
-      font-size: 0.75rem;
+    /* ── settings gear ── */
+    .gear-btn {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 100;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(192,132,252,0.15);
+      border: 1px solid var(--border);
       color: var(--muted);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      backdrop-filter: blur(8px);
     }
+    .gear-btn:hover { background: rgba(192,132,252,0.25); color: var(--text); border-color: var(--border-h); }
+
+    /* ── sync dot on gear ── */
+    .gear-btn .sync-dot {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--muted);
+      border: 1.5px solid var(--bg);
+      display: none;
+    }
+    .gear-btn.connected .sync-dot { background: #4ade80; display: block; }
+    .gear-btn.syncing   .sync-dot { background: var(--gold); display: block; animation: pulse 1s infinite; }
+    .gear-btn.error     .sync-dot { background: var(--pink-bright); display: block; }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+
+    /* ── settings modal ── */
+    .settings-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 20px;
+    }
+    .settings-overlay.open { display: flex; }
+
+    .settings-panel {
+      background: #16082a;
+      border: 1px solid var(--border-h);
+      border-radius: 24px;
+      padding: 32px 28px;
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 80px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+      animation: slideUp 0.25s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes slideUp { from { transform: translateY(30px); opacity:0; } to { transform: translateY(0); opacity:1; } }
+
+    .settings-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .settings-desc { font-size: 0.82rem; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+    .settings-desc a { color: var(--lavender); }
+
+    .settings-row { display: flex; gap: 10px; align-items: center; }
+
+    .pat-input {
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(192,132,252,0.25);
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 300;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      letter-spacing: 0.04em;
+    }
+    .pat-input:focus { outline: none; border-color: var(--lavender); box-shadow: 0 0 0 3px rgba(192,132,252,0.12); }
+    .pat-input::placeholder { color: var(--muted); letter-spacing: 0; }
+
+    .btn-save {
+      background: linear-gradient(130deg, var(--violet), var(--pink-bright));
+      border: none;
+      border-radius: 10px;
+      padding: 12px 20px;
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 16px rgba(124,58,237,0.35);
+    }
+    .btn-save:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(124,58,237,0.5); }
+
+    .status-line {
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); flex-shrink: 0; }
+    .status-dot.ok  { background: #4ade80; }
+    .status-dot.err { background: var(--pink-bright); }
+
+    .btn-close-panel {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      width: 100%;
+      padding: 6px;
+    }
+    .btn-close-panel:hover { color: var(--text); }
 
     /* ── section ── */
     section { margin-bottom: 52px; }
-
     .sec-title {
       font-family: 'Playfair Display', serif;
       font-size: 1.55rem;
@@ -142,7 +242,6 @@
       color: var(--text);
       animation: glow 5s ease-in-out infinite;
     }
-
     @keyframes glow {
       0%,100% { text-shadow: 0 0 18px rgba(249,168,212,0.25); }
       50%      { text-shadow: 0 0 36px rgba(249,168,212,0.55), 0 0 72px rgba(192,132,252,0.2); }
@@ -163,209 +262,94 @@
       user-select: none;
       position: relative;
     }
-
-    .goal-item:hover {
-      background: rgba(192,132,252,0.09);
-      border-color: var(--border-h);
-      transform: translateX(5px);
-    }
-
-    .goal-item.is-done {
-      opacity: 0.45;
-    }
-
-    .goal-item.is-done .goal-text {
-      text-decoration: line-through;
-      color: var(--done-text);
-    }
+    .goal-item:hover { background: rgba(192,132,252,0.09); border-color: var(--border-h); transform: translateX(5px); }
+    .goal-item.is-done { opacity: 0.45; }
+    .goal-item.is-done .goal-text { text-decoration: line-through; color: var(--done-text); }
 
     .cb {
-      width: 20px;
-      height: 20px;
+      width: 20px; height: 20px;
       border-radius: 50%;
       border: 2px solid var(--lavender);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-top: 2px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 2px;
       transition: all 0.2s;
-      font-size: 11px;
-      color: transparent;
+      font-size: 11px; color: transparent;
     }
-
     .goal-item.is-done .cb {
       background: linear-gradient(135deg, var(--violet), var(--pink-bright));
-      border-color: transparent;
-      color: #fff;
+      border-color: transparent; color: #fff;
     }
-
     .goal-text { font-size: 0.97rem; line-height: 1.5; }
-
     .num-badge {
-      position: absolute;
-      right: 18px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--gold);
-      opacity: 0.65;
+      position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--gold); opacity: 0.65;
     }
 
     /* ── day groups ── */
     .day-group { margin-bottom: 22px; }
-
     .day-label {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 0.95rem;
-      color: var(--gold-pale);
-      margin-bottom: 10px;
-      padding-left: 2px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: 0.95rem; color: var(--gold-pale);
+      margin-bottom: 10px; padding-left: 2px;
+      display: flex; align-items: center; gap: 10px;
     }
+    .day-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, rgba(253,230,138,0.28), transparent); }
 
-    .day-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(to right, rgba(253,230,138,0.28), transparent);
-    }
-
-    /* ── done sub-section ── */
+    /* ── done sub ── */
     .done-sub { margin-top: 28px; }
-
-    .done-sub-title {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 0.88rem;
-      color: var(--muted);
-      margin-bottom: 10px;
-      padding-left: 2px;
-    }
+    .done-sub-title { font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.88rem; color: var(--muted); margin-bottom: 10px; padding-left: 2px; }
 
     /* ── divider ── */
-    .divider {
-      height: 1px;
-      margin: 44px 0;
-      background: linear-gradient(to right, transparent, rgba(192,132,252,0.28), transparent);
-    }
+    .divider { height: 1px; margin: 44px 0; background: linear-gradient(to right, transparent, rgba(192,132,252,0.28), transparent); }
 
-    /* ── what went live card ── */
-    .glass-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-card);
-      padding: 28px 26px;
-      backdrop-filter: blur(12px);
-    }
-
+    /* ── what went live ── */
+    .glass-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); padding: 28px 26px; backdrop-filter: blur(12px); }
     .post-form { display: flex; flex-direction: column; gap: 11px; margin-bottom: 26px; }
-
     .post-form input {
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(192,132,252,0.22);
-      border-radius: 12px;
-      padding: 13px 17px;
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.93rem;
-      font-weight: 300;
-      width: 100%;
+      border-radius: 12px; padding: 13px 17px;
+      color: var(--text); font-family: 'DM Sans', sans-serif;
+      font-size: 0.93rem; font-weight: 300; width: 100%;
       transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
     }
-
-    .post-form input:focus {
-      outline: none;
-      border-color: var(--lavender);
-      background: rgba(192,132,252,0.07);
-      box-shadow: 0 0 0 3px rgba(192,132,252,0.12);
-    }
-
+    .post-form input:focus { outline: none; border-color: var(--lavender); background: rgba(192,132,252,0.07); box-shadow: 0 0 0 3px rgba(192,132,252,0.12); }
     .post-form input::placeholder { color: var(--muted); }
-
     .btn-add {
       align-self: flex-start;
       background: linear-gradient(130deg, var(--violet) 0%, var(--pink-bright) 100%);
-      border: none;
-      border-radius: 50px;
-      padding: 11px 26px;
-      color: #fff;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.88rem;
-      font-weight: 500;
-      letter-spacing: 0.03em;
-      cursor: pointer;
-      transition: transform 0.18s, box-shadow 0.18s;
+      border: none; border-radius: 50px; padding: 11px 26px;
+      color: #fff; font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem; font-weight: 500; letter-spacing: 0.03em;
+      cursor: pointer; transition: transform 0.18s, box-shadow 0.18s;
       box-shadow: 0 4px 22px rgba(124,58,237,0.38);
     }
-
     .btn-add:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(124,58,237,0.5); }
     .btn-add:active { transform: translateY(0); }
 
-    /* ── post list ── */
     .post-list { display: flex; flex-direction: column; gap: 10px; }
-
-    .post-entry {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 13px 16px;
-      background: rgba(249,168,212,0.05);
-      border: 1px solid rgba(249,168,212,0.13);
-      border-radius: 12px;
-    }
-
+    .post-entry { display: flex; align-items: flex-start; gap: 12px; padding: 13px 16px; background: rgba(249,168,212,0.05); border: 1px solid rgba(249,168,212,0.13); border-radius: 12px; }
     .post-icon { font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
-
     .post-body { flex: 1; min-width: 0; }
-
-    .post-url {
-      color: var(--pink);
-      text-decoration: none;
-      font-size: 0.88rem;
-      word-break: break-all;
-      display: block;
-      transition: color 0.15s;
-    }
+    .post-url { color: var(--pink); text-decoration: none; font-size: 0.88rem; word-break: break-all; display: block; transition: color 0.15s; }
     .post-url:hover { color: var(--gold-pale); }
-
     .post-note { font-size: 0.78rem; color: var(--muted); margin-top: 3px; }
-
     .post-date { font-size: 0.73rem; color: var(--muted); flex-shrink: 0; white-space: nowrap; }
 
-    /* ── empty state ── */
-    .empty {
-      text-align: center;
-      padding: 28px 16px;
-      color: var(--muted);
-      font-style: italic;
-      font-size: 0.88rem;
-    }
+    .empty { text-align: center; padding: 28px 16px; color: var(--muted); font-style: italic; font-size: 0.88rem; }
 
     /* ── toast ── */
     .toast {
-      position: fixed;
-      bottom: 32px;
-      left: 50%;
+      position: fixed; bottom: 32px; left: 50%;
       transform: translateX(-50%) translateY(80px);
       background: linear-gradient(130deg, var(--violet), var(--pink-bright));
-      color: #fff;
-      padding: 12px 24px;
-      border-radius: 50px;
-      font-size: 0.88rem;
-      font-weight: 500;
+      color: #fff; padding: 12px 24px; border-radius: 50px;
+      font-size: 0.88rem; font-weight: 500;
       box-shadow: 0 8px 32px rgba(0,0,0,0.4);
       transition: transform 0.3s cubic-bezier(.34,1.56,.64,1);
-      z-index: 999;
-      pointer-events: none;
+      z-index: 999; pointer-events: none;
     }
-
     .toast.show { transform: translateX(-50%) translateY(0); }
   </style>
 </head>
@@ -374,9 +358,35 @@
 <div id="sparkles"></div>
 <div class="toast" id="toast"></div>
 
+<!-- settings gear -->
+<button class="gear-btn" id="gear-btn" onclick="openSettings()" title="Settings">
+  ⚙️
+  <span class="sync-dot"></span>
+</button>
+
+<!-- settings overlay -->
+<div class="settings-overlay" id="settings-overlay" onclick="overlayClick(event)">
+  <div class="settings-panel">
+    <div class="settings-title">⚙️ Connect to GitHub</div>
+    <div class="settings-desc">
+      Paste a GitHub Personal Access Token so your check-offs and post URLs sync back to your repo — and chief of staff can read them.<br><br>
+      <a href="https://github.com/settings/tokens/new?description=Chief+of+Staff+dashboard&scopes=repo" target="_blank" rel="noopener">Generate a token here ↗</a> — only needs the <strong>repo</strong> scope.
+      Your token is stored only in this browser, never in GitHub.
+    </div>
+    <div class="settings-row">
+      <input class="pat-input" id="pat-input" type="password" placeholder="ghp_…" autocomplete="off" />
+      <button class="btn-save" onclick="savePAT()">Save</button>
+    </div>
+    <div class="status-line" id="status-line">
+      <span class="status-dot" id="status-dot"></span>
+      <span id="status-text">not connected</span>
+    </div>
+    <button class="btn-close-panel" onclick="closeSettings()">close</button>
+  </div>
+</div>
+
 <div class="wrap">
 
-  <!-- header -->
   <header>
     <span class="crown">👑</span>
     <h1>This Week's Magic</h1>
@@ -384,8 +394,7 @@
     <span class="updated" id="last-updated"></span>
   </header>
 
-  <!-- priorities -->
-  <section id="priorities-section">
+  <section>
     <div class="sec-title"><span>🌸</span> Weekly Priorities</div>
     <div id="pri-active"></div>
     <div class="done-sub" id="pri-done-wrap" style="display:none">
@@ -396,8 +405,7 @@
 
   <div class="divider"></div>
 
-  <!-- daily todos -->
-  <section id="todos-section">
+  <section>
     <div class="sec-title"><span>🌙</span> Daily Rituals</div>
     <div id="todo-active"></div>
     <div class="done-sub" id="todo-done-wrap" style="display:none">
@@ -408,7 +416,6 @@
 
   <div class="divider"></div>
 
-  <!-- what went live -->
   <section>
     <div class="sec-title"><span>✨</span> What Went Live</div>
     <div class="glass-card">
@@ -444,24 +451,120 @@
   }
 })();
 
+// ── config ────────────────────────────────────────────────────────────────────
+const REPO          = 'MilanKaur-01/chief-of-staff';
+const FEEDBACK_FILE = 'feedback.json';
+const STATE_KEY     = 'goals-state';
+const PAT_KEY       = 'gh-pat';
+
 // ── state ─────────────────────────────────────────────────────────────────────
-const KEY = 'goals-state';
 let state = { done: [], publishedPosts: [] };
 let data  = null;
 
-function load() {
-  try { const s = localStorage.getItem(KEY); if (s) state = JSON.parse(s); } catch(e) {}
+function loadState() {
+  try { const s = localStorage.getItem(STATE_KEY); if (s) state = JSON.parse(s); } catch(e) {}
 }
-function save() { localStorage.setItem(KEY, JSON.stringify(state)); }
+function saveState() { localStorage.setItem(STATE_KEY, JSON.stringify(state)); }
 
 // ── helpers ───────────────────────────────────────────────────────────────────
-const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
 function toast(msg) {
   const el = document.getElementById('toast');
   el.textContent = msg;
   el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2400);
+  setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+// ── settings panel ────────────────────────────────────────────────────────────
+function openSettings() {
+  const pat = localStorage.getItem(PAT_KEY) || '';
+  document.getElementById('pat-input').value = pat ? '••••••••••••••••' : '';
+  updateStatusLine();
+  document.getElementById('settings-overlay').classList.add('open');
+}
+function closeSettings() {
+  document.getElementById('settings-overlay').classList.remove('open');
+}
+function overlayClick(e) {
+  if (e.target === document.getElementById('settings-overlay')) closeSettings();
+}
+
+function updateStatusLine() {
+  const pat  = localStorage.getItem(PAT_KEY);
+  const dot  = document.getElementById('status-dot');
+  const txt  = document.getElementById('status-text');
+  const gear = document.getElementById('gear-btn');
+  if (pat) {
+    dot.className  = 'status-dot ok';
+    txt.textContent = 'connected — syncing automatically';
+    gear.className = 'gear-btn connected';
+  } else {
+    dot.className  = 'status-dot';
+    txt.textContent = 'not connected';
+    gear.className = 'gear-btn';
+  }
+}
+
+function savePAT() {
+  const val = document.getElementById('pat-input').value.trim();
+  if (!val || val.startsWith('•')) { closeSettings(); return; }
+  localStorage.setItem(PAT_KEY, val);
+  updateStatusLine();
+  closeSettings();
+  toast('✨ connected!');
+  syncFeedback();
+}
+
+// ── github sync ───────────────────────────────────────────────────────────────
+function buildFeedback() {
+  return {
+    syncedAt: new Date().toISOString(),
+    markedDone: state.done.map(id => {
+      const match = [...(data?.priorities||[]), ...(data?.dailyTodos||[])].find(x => x.id === id);
+      return { id, text: match?.text || id, day: match?.day || null };
+    }),
+    publishedPosts: state.publishedPosts
+  };
+}
+
+async function syncFeedback() {
+  const pat = localStorage.getItem(PAT_KEY);
+  if (!pat) return;
+
+  const gear = document.getElementById('gear-btn');
+  gear.className = 'gear-btn syncing';
+
+  const headers = {
+    Authorization: `token ${pat}`,
+    Accept: 'application/vnd.github.v3+json',
+    'Content-Type': 'application/json'
+  };
+
+  try {
+    // get current SHA so we can update (not create duplicate)
+    let sha;
+    const getRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${FEEDBACK_FILE}`, { headers });
+    if (getRes.ok) { sha = (await getRes.json()).sha; }
+
+    const body = {
+      message: `sync: dashboard feedback ${new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'})}`,
+      content: btoa(unescape(encodeURIComponent(JSON.stringify(buildFeedback(), null, 2))))
+    };
+    if (sha) body.sha = sha;
+
+    const putRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${FEEDBACK_FILE}`, {
+      method: 'PUT', headers, body: JSON.stringify(body)
+    });
+
+    if (putRes.ok) {
+      gear.className = 'gear-btn connected';
+    } else {
+      gear.className = 'gear-btn error';
+    }
+  } catch(e) {
+    gear.className = 'gear-btn error';
+  }
 }
 
 // ── item factory ──────────────────────────────────────────────────────────────
@@ -476,11 +579,10 @@ function makeItem(item, badge) {
   `;
   div.addEventListener('click', () => {
     const wasDone = state.done.includes(item.id);
-    state.done = wasDone
-      ? state.done.filter(d => d !== item.id)
-      : [...state.done, item.id];
-    save();
+    state.done = wasDone ? state.done.filter(d => d !== item.id) : [...state.done, item.id];
+    saveState();
     render();
+    syncFeedback();
     if (!wasDone) toast('✨ nice one!');
   });
   return div;
@@ -556,10 +658,7 @@ function renderHeader() {
   if (data.updatedAt) {
     const d = new Date(data.updatedAt);
     document.getElementById('last-updated').textContent =
-      'last updated ' + d.toLocaleDateString('en-US', {
-        weekday:'long', month:'long', day:'numeric',
-        hour:'2-digit', minute:'2-digit'
-      });
+      'last updated ' + d.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit' });
   }
 }
 
@@ -582,9 +681,10 @@ function addPost() {
     note: noteEl.value.trim(),
     addedAt: new Date().toLocaleDateString('en-US', { month:'short', day:'numeric' })
   });
-  save();
+  saveState();
   urlEl.value = noteEl.value = '';
   renderPosts();
+  syncFeedback();
   toast('🎉 logged!');
 }
 
@@ -610,7 +710,8 @@ const FALLBACK = {
   ]
 };
 
-load();
+loadState();
+updateStatusLine();
 fetch('goals.json?t=' + Date.now())
   .then(r => { if (!r.ok) throw 0; return r.json(); })
   .then(d  => { data = d; render(); })
