@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>✨ Chief of Staff</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:          #0b0614;
+      --surface:     rgba(255,255,255,0.045);
+      --border:      rgba(192,132,252,0.18);
+      --border-h:    rgba(192,132,252,0.38);
+      --pink:        #f9a8d4;
+      --pink-bright: #ec4899;
+      --lavender:    #c084fc;
+      --violet:      #7c3aed;
+      --gold:        #fbbf24;
+      --gold-pale:   #fde68a;
+      --text:        #fdf4ff;
+      --muted:       rgba(253,244,255,0.42);
+      --done-text:   rgba(253,244,255,0.28);
+      --radius-card: 22px;
+      --radius-item: 14px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── mesh background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 15% 10%,  rgba(124,58,237,0.22)  0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 85% 85%,  rgba(236,72,153,0.14)  0%, transparent 65%),
+        radial-gradient(ellipse 40% 60% at 70% 20%,  rgba(251,191,36,0.07)  0%, transparent 60%),
+        radial-gradient(ellipse 80% 30% at 40% 100%, rgba(192,132,252,0.10) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── sparkle particles ── */
+    #sparkles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .sp {
+      position: absolute;
+      bottom: -24px;
+      opacity: 0;
+      animation: floatUp linear infinite;
+      will-change: transform, opacity;
+    }
+
+    @keyframes floatUp {
+      0%   { opacity: 0;   transform: translateY(0)      rotate(0deg)   scale(0.4); }
+      8%   { opacity: 1; }
+      85%  { opacity: 0.7; }
+      100% { opacity: 0;   transform: translateY(-104vh) rotate(540deg) scale(1.1); }
+    }
+
+    /* ── layout ── */
+    .wrap {
+      position: relative;
+      z-index: 2;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 60px 24px 100px;
+    }
+
+    /* ── header ── */
+    header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .crown { font-size: 2.4rem; display: block; margin-bottom: 10px; }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 7vw, 4.4rem);
+      font-weight: 900;
+      line-height: 1.05;
+      background: linear-gradient(130deg, var(--gold) 0%, var(--pink) 45%, var(--lavender) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 18px;
+      letter-spacing: -0.01em;
+    }
+
+    .week-tag {
+      display: inline-block;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--pink);
+      background: rgba(249,168,212,0.1);
+      border: 1px solid rgba(249,168,212,0.22);
+      border-radius: 50px;
+      padding: 6px 20px;
+      margin-bottom: 10px;
+    }
+
+    .updated {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ── section ── */
+    section { margin-bottom: 52px; }
+
+    .sec-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      animation: glow 5s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+      0%,100% { text-shadow: 0 0 18px rgba(249,168,212,0.25); }
+      50%      { text-shadow: 0 0 36px rgba(249,168,212,0.55), 0 0 72px rgba(192,132,252,0.2); }
+    }
+
+    /* ── goal item ── */
+    .goal-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-item);
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.18s;
+      user-select: none;
+      position: relative;
+    }
+
+    .goal-item:hover {
+      background: rgba(192,132,252,0.09);
+      border-color: var(--border-h);
+      transform: translateX(5px);
+    }
+
+    .goal-item.is-done {
+      opacity: 0.45;
+    }
+
+    .goal-item.is-done .goal-text {
+      text-decoration: line-through;
+      color: var(--done-text);
+    }
+
+    .cb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--lavender);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: all 0.2s;
+      font-size: 11px;
+      color: transparent;
+    }
+
+    .goal-item.is-done .cb {
+      background: linear-gradient(135deg, var(--violet), var(--pink-bright));
+      border-color: transparent;
+      color: #fff;
+    }
+
+    .goal-text { font-size: 0.97rem; line-height: 1.5; }
+
+    .num-badge {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.65;
+    }
+
+    /* ── day groups ── */
+    .day-group { margin-bottom: 22px; }
+
+    .day-label {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--gold-pale);
+      margin-bottom: 10px;
+      padding-left: 2px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .day-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, rgba(253,230,138,0.28), transparent);
+    }
+
+    /* ── done sub-section ── */
+    .done-sub { margin-top: 28px; }
+
+    .done-sub-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+      padding-left: 2px;
+    }
+
+    /* ── divider ── */
+    .divider {
+      height: 1px;
+      margin: 44px 0;
+      background: linear-gradient(to right, transparent, rgba(192,132,252,0.28), transparent);
+    }
+
+    /* ── what went live card ── */
+    .glass-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 28px 26px;
+      backdrop-filter: blur(12px);
+    }
+
+    .post-form { display: flex; flex-direction: column; gap: 11px; margin-bottom: 26px; }
+
+    .post-form input {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(192,132,252,0.22);
+      border-radius: 12px;
+      padding: 13px 17px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.93rem;
+      font-weight: 300;
+      width: 100%;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    }
+
+    .post-form input:focus {
+      outline: none;
+      border-color: var(--lavender);
+      background: rgba(192,132,252,0.07);
+      box-shadow: 0 0 0 3px rgba(192,132,252,0.12);
+    }
+
+    .post-form input::placeholder { color: var(--muted); }
+
+    .btn-add {
+      align-self: flex-start;
+      background: linear-gradient(130deg, var(--violet) 0%, var(--pink-bright) 100%);
+      border: none;
+      border-radius: 50px;
+      padding: 11px 26px;
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: transform 0.18s, box-shadow 0.18s;
+      box-shadow: 0 4px 22px rgba(124,58,237,0.38);
+    }
+
+    .btn-add:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(124,58,237,0.5); }
+    .btn-add:active { transform: translateY(0); }
+
+    /* ── post list ── */
+    .post-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .post-entry {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 13px 16px;
+      background: rgba(249,168,212,0.05);
+      border: 1px solid rgba(249,168,212,0.13);
+      border-radius: 12px;
+    }
+
+    .post-icon { font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+
+    .post-body { flex: 1; min-width: 0; }
+
+    .post-url {
+      color: var(--pink);
+      text-decoration: none;
+      font-size: 0.88rem;
+      word-break: break-all;
+      display: block;
+      transition: color 0.15s;
+    }
+    .post-url:hover { color: var(--gold-pale); }
+
+    .post-note { font-size: 0.78rem; color: var(--muted); margin-top: 3px; }
+
+    .post-date { font-size: 0.73rem; color: var(--muted); flex-shrink: 0; white-space: nowrap; }
+
+    /* ── empty state ── */
+    .empty {
+      text-align: center;
+      padding: 28px 16px;
+      color: var(--muted);
+      font-style: italic;
+      font-size: 0.88rem;
+    }
+
+    /* ── toast ── */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: linear-gradient(130deg, var(--violet), var(--pink-bright));
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      transition: transform 0.3s cubic-bezier(.34,1.56,.64,1);
+      z-index: 999;
+      pointer-events: none;
+    }
+
+    .toast.show { transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+<div id="sparkles"></div>
+<div class="toast" id="toast"></div>
+
+<div class="wrap">
+
+  <!-- header -->
+  <header>
+    <span class="crown">👑</span>
+    <h1>This Week's Magic</h1>
+    <span class="week-tag" id="week-label">loading…</span>
+    <span class="updated" id="last-updated"></span>
+  </header>
+
+  <!-- priorities -->
+  <section id="priorities-section">
+    <div class="sec-title"><span>🌸</span> Weekly Priorities</div>
+    <div id="pri-active"></div>
+    <div class="done-sub" id="pri-done-wrap" style="display:none">
+      <div class="done-sub-title">✓ done & dusted</div>
+      <div id="pri-done"></div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- daily todos -->
+  <section id="todos-section">
+    <div class="sec-title"><span>🌙</span> Daily Rituals</div>
+    <div id="todo-active"></div>
+    <div class="done-sub" id="todo-done-wrap" style="display:none">
+      <div class="done-sub-title">✓ done & dusted</div>
+      <div id="todo-done"></div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- what went live -->
+  <section>
+    <div class="sec-title"><span>✨</span> What Went Live</div>
+    <div class="glass-card">
+      <div class="post-form">
+        <input type="url"  id="inp-url"  placeholder="paste post url…" />
+        <input type="text" id="inp-note" placeholder="quick note (optional)" />
+        <button class="btn-add" onclick="addPost()">log it ✨</button>
+      </div>
+      <div id="post-list" class="post-list"></div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+// ── sparkles ──────────────────────────────────────────────────────────────────
+(function() {
+  const chars  = ['✦','✧','✶','✸','⋆','·','✼','✺','★','✱'];
+  const colors = ['#fbbf24','#fde68a','#f9a8d4','#c084fc','#f472b6','#e879f9'];
+  const c = document.getElementById('sparkles');
+  for (let i = 0; i < 22; i++) {
+    const s = document.createElement('span');
+    s.className = 'sp';
+    s.textContent = chars[i % chars.length];
+    s.style.cssText = [
+      `left:${Math.random()*100}%`,
+      `color:${colors[Math.floor(Math.random()*colors.length)]}`,
+      `font-size:${7 + Math.random()*13}px`,
+      `animation-duration:${9 + Math.random()*13}s`,
+      `animation-delay:${Math.random()*14}s`,
+    ].join(';');
+    c.appendChild(s);
+  }
+})();
+
+// ── state ─────────────────────────────────────────────────────────────────────
+const KEY = 'goals-state';
+let state = { done: [], publishedPosts: [] };
+let data  = null;
+
+function load() {
+  try { const s = localStorage.getItem(KEY); if (s) state = JSON.parse(s); } catch(e) {}
+}
+function save() { localStorage.setItem(KEY, JSON.stringify(state)); }
+
+// ── helpers ───────────────────────────────────────────────────────────────────
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2400);
+}
+
+// ── item factory ──────────────────────────────────────────────────────────────
+function makeItem(item, badge) {
+  const done = state.done.includes(item.id);
+  const div  = document.createElement('div');
+  div.className = 'goal-item' + (done ? ' is-done' : '');
+  div.innerHTML = `
+    <div class="cb">${done ? '✓' : ''}</div>
+    <span class="goal-text">${esc(item.text)}</span>
+    ${badge ? `<span class="num-badge">#${badge}</span>` : ''}
+  `;
+  div.addEventListener('click', () => {
+    const wasDone = state.done.includes(item.id);
+    state.done = wasDone
+      ? state.done.filter(d => d !== item.id)
+      : [...state.done, item.id];
+    save();
+    render();
+    if (!wasDone) toast('✨ nice one!');
+  });
+  return div;
+}
+
+// ── render ────────────────────────────────────────────────────────────────────
+function renderPriorities() {
+  const active = document.getElementById('pri-active');
+  const done   = document.getElementById('pri-done');
+  const wrap   = document.getElementById('pri-done-wrap');
+  active.innerHTML = done.innerHTML = '';
+
+  const a = data.priorities.filter(p => !state.done.includes(p.id));
+  const d = data.priorities.filter(p =>  state.done.includes(p.id));
+
+  if (!a.length && !d.length)
+    active.innerHTML = '<div class="empty">no priorities yet — run chief of staff to update ✨</div>';
+
+  a.forEach((p, i) => active.appendChild(makeItem(p, i + 1)));
+  d.forEach(p       => done.appendChild(makeItem(p, null)));
+  wrap.style.display = d.length ? 'block' : 'none';
+}
+
+function renderTodos() {
+  const active = document.getElementById('todo-active');
+  const done   = document.getElementById('todo-done');
+  const wrap   = document.getElementById('todo-done-wrap');
+  active.innerHTML = done.innerHTML = '';
+
+  const a = data.dailyTodos.filter(t => !state.done.includes(t.id));
+  const d = data.dailyTodos.filter(t =>  state.done.includes(t.id));
+
+  if (!a.length && !d.length)
+    active.innerHTML = '<div class="empty">no daily to-dos yet — run chief of staff to update ✨</div>';
+
+  const days = [...new Set(a.map(t => t.day))];
+  days.forEach(day => {
+    const g = document.createElement('div');
+    g.className = 'day-group';
+    g.innerHTML = `<div class="day-label">${esc(day)}</div>`;
+    a.filter(t => t.day === day).forEach(t => g.appendChild(makeItem(t, null)));
+    active.appendChild(g);
+  });
+
+  d.forEach(t => done.appendChild(makeItem(t, null)));
+  wrap.style.display = d.length ? 'block' : 'none';
+}
+
+function renderPosts() {
+  const list = document.getElementById('post-list');
+  list.innerHTML = '';
+  if (!state.publishedPosts.length) {
+    list.innerHTML = '<div class="empty">nothing logged yet — paste your first link above 🌸</div>';
+    return;
+  }
+  [...state.publishedPosts].reverse().forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'post-entry';
+    div.innerHTML = `
+      <span class="post-icon">🔗</span>
+      <div class="post-body">
+        <a class="post-url" href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">${esc(p.url)}</a>
+        ${p.note ? `<div class="post-note">${esc(p.note)}</div>` : ''}
+      </div>
+      <span class="post-date">${esc(p.addedAt)}</span>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function renderHeader() {
+  document.getElementById('week-label').textContent = data.week || '';
+  if (data.updatedAt) {
+    const d = new Date(data.updatedAt);
+    document.getElementById('last-updated').textContent =
+      'last updated ' + d.toLocaleDateString('en-US', {
+        weekday:'long', month:'long', day:'numeric',
+        hour:'2-digit', minute:'2-digit'
+      });
+  }
+}
+
+function render() {
+  renderHeader();
+  renderPriorities();
+  renderTodos();
+  renderPosts();
+}
+
+// ── add post ──────────────────────────────────────────────────────────────────
+function addPost() {
+  const urlEl  = document.getElementById('inp-url');
+  const noteEl = document.getElementById('inp-note');
+  const url    = urlEl.value.trim();
+  if (!url) { urlEl.focus(); return; }
+
+  state.publishedPosts.push({
+    url,
+    note: noteEl.value.trim(),
+    addedAt: new Date().toLocaleDateString('en-US', { month:'short', day:'numeric' })
+  });
+  save();
+  urlEl.value = noteEl.value = '';
+  renderPosts();
+  toast('🎉 logged!');
+}
+
+document.getElementById('inp-url').addEventListener('keydown',  e => { if (e.key==='Enter') document.getElementById('inp-note').focus(); });
+document.getElementById('inp-note').addEventListener('keydown', e => { if (e.key==='Enter') addPost(); });
+
+// ── boot ──────────────────────────────────────────────────────────────────────
+const FALLBACK = {
+  week: "May 26 – June 1, 2026",
+  updatedAt: new Date().toISOString(),
+  priorities: [
+    { id:"p1", text:"Launch TikTok series" },
+    { id:"p2", text:"Record 3 reels this week" },
+    { id:"p3", text:"Finalize brand partnership deck" }
+  ],
+  dailyTodos: [
+    { id:"t1", day:"Monday",    text:"Post morning video" },
+    { id:"t2", day:"Monday",    text:"Reply to all comments" },
+    { id:"t3", day:"Tuesday",   text:"Film B-roll content" },
+    { id:"t4", day:"Wednesday", text:"Edit & caption reel" },
+    { id:"t5", day:"Thursday",  text:"Schedule weekend posts" },
+    { id:"t6", day:"Friday",    text:"Weekly content debrief" }
+  ]
+};
+
+load();
+fetch('goals.json?t=' + Date.now())
+  .then(r => { if (!r.ok) throw 0; return r.json(); })
+  .then(d  => { data = d; render(); })
+  .catch(()=> { data = FALLBACK; render(); });
+</script>
+</body>
+</html>
