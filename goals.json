@@ -1,17 +1,22 @@
 {
   "week": "May 26 – June 1, 2026",
-  "updatedAt": "2026-05-26T10:00:00Z",
+  "updatedAt": "2026-05-27T00:00:00Z",
   "priorities": [
-    { "id": "p1", "text": "Launch TikTok series" },
-    { "id": "p2", "text": "Record 3 reels this week" },
-    { "id": "p3", "text": "Finalize brand partnership deck" }
+    { "id": "p1", "text": "Post yapElena reel — video is rendered and ready" },
+    { "id": "p2", "text": "Post LinkedIn every day — 3,600 → 10K by June 10, 2 weeks left" },
+    { "id": "p3", "text": "Post 3 reels from pending queue (reels 33, 34, 35 briefs ready)" },
+    { "id": "p4", "text": "Post carousel — GPT-5.5 vs Claude vs Gemini (carousel_44 in queue)" },
+    { "id": "p5", "text": "Review reel_60 (Claude Code from phone) and reel_59 (Claude design) before filming" }
   ],
   "dailyTodos": [
-    { "id": "t1", "day": "Monday", "text": "Post morning video" },
-    { "id": "t2", "day": "Monday", "text": "Reply to all comments" },
-    { "id": "t3", "day": "Tuesday", "text": "Film B-roll content" },
-    { "id": "t4", "day": "Wednesday", "text": "Edit & caption reel" },
-    { "id": "t5", "day": "Thursday", "text": "Schedule weekend posts" },
-    { "id": "t6", "day": "Friday", "text": "Weekly content debrief" }
+    { "id": "t1", "day": "Tuesday",   "text": "Instagram reel — post yapElena (file ready in reel/out/)" },
+    { "id": "t2", "day": "Tuesday",   "text": "LinkedIn — post agent365 or anthropic_dreaming (both in queue)" },
+    { "id": "t3", "day": "Wednesday", "text": "Instagram reel — Snap $400M deal cancellation (reel_33 brief ready)" },
+    { "id": "t4", "day": "Wednesday", "text": "LinkedIn — daily POV post (3–4 needed this week)" },
+    { "id": "t5", "day": "Thursday",  "text": "Instagram reel — CTO agentic AI 60-second brief (reel_34 ready)" },
+    { "id": "t6", "day": "Thursday",  "text": "LinkedIn — daily POV post" },
+    { "id": "t7", "day": "Friday",    "text": "Instagram carousel — GPT-5.5 vs Claude vs Gemini (carousel_44 in queue)" },
+    { "id": "t8", "day": "Saturday",  "text": "Instagram reel — Anthropic dreaming (reel_35) or Google I/O hallelujah (reel_45)" },
+    { "id": "t9", "day": "Sunday",    "text": "LinkedIn — review + approve backlog for next week" }
   ]
 }
