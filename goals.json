@@ -1,22 +1,20 @@
 {
-  "week": "May 27 – June 1, 2026",
-  "updatedAt": "2026-05-27T08:00:00Z",
+  "week": "June 8 – June 14, 2026",
+  "updatedAt": "2026-06-08T06:00:00Z",
   "priorities": [
-    { "id": "p1", "text": "Post LinkedIn 3–4x this week — 6,397 followers short of 10K with 14 days to June 10 deadline" },
-    { "id": "p2", "text": "Film and post 3 reels — briefs ready for #33, #34, #35 in pending_review" },
-    { "id": "p3", "text": "Log May 24 LinkedIn metrics + update Instagram follower count — tracker is blind without this" },
-    { "id": "p4", "text": "Decide on stale LinkedIn posts (agent365, anthropic_dreaming) — post now or archive" },
-    { "id": "p5", "text": "Get carousel #44 into Canva and post by Thursday — copy is ready" }
+    { "id": "p1", "text": "Check Instagram follower count + log it" },
+    { "id": "p2", "text": "Finish editing reel #50 (already filmed) + post today" },
+    { "id": "p3", "text": "Review + post 4 LinkedIn drafts (Mon–Thu, all ready in pending_review)" },
+    { "id": "p4", "text": "Run Design Agent for carousel #44 (copy ready)" },
+    { "id": "p5", "text": "Log overdue engagement: Jun 1 Instagram + Jun 4 LinkedIn" }
   ],
   "dailyTodos": [
-    { "id": "t1", "day": "Tuesday",   "platform": "LinkedIn",   "text": "Post VS Code agentic take (#61) — insider + timely, zero new research needed" },
-    { "id": "t2", "day": "Tuesday",   "platform": "Instagram",  "text": "Film + post reel #34 — Your CTO is about to ask about Agentic AI (60-sec brief)" },
-    { "id": "t3", "day": "Wednesday", "platform": "Instagram",  "text": "Film + post reel #33 — Snap $400M AI deal cancelled" },
-    { "id": "t4", "day": "Wednesday", "platform": "LinkedIn",   "text": "Post POV: Why most AI pilots die before production (#41 angle)" },
-    { "id": "t5", "day": "Thursday",  "platform": "Instagram",  "text": "Film + post reel #35 — Anthropic dreaming, what it means for your product" },
-    { "id": "t6", "day": "Thursday",  "platform": "Instagram",  "text": "Post carousel #44 — GPT-5.5 vs Claude vs Gemini (needs Canva design)" },
-    { "id": "t7", "day": "Friday",    "platform": "LinkedIn",   "text": "Post: Entry-level AI jobs crisis — what replaced them (LinkedIn version of #13)" },
-    { "id": "t8", "day": "Saturday",  "platform": "Instagram",  "text": "Post carousel #27 — The 30-Day AI Ramp-Up Plan for PMs (copy in carousel_2026-05-24_27)" },
-    { "id": "t9", "day": "Saturday",  "platform": "Instagram",  "text": "Post Google I/O Hallelujah reel #45 if not already posted (brief in pending_review)" }
+    { "id": "t1", "day": "Monday",    "text": "Post reel #50 — When AI Agents Break + LinkedIn: Anthropic dreaming" },
+    { "id": "t2", "day": "Tuesday",   "text": "Film reel #34 — 60-second Agentic AI brief + LinkedIn: Google I/O product teams" },
+    { "id": "t3", "day": "Wednesday", "text": "Write brief + film reel #65 — Agent Memory explained + LinkedIn: Google I/O after hype" },
+    { "id": "t4", "day": "Thursday",  "text": "Write brief + film reel #78 — Why AI Agents Lose Context + LinkedIn: Microsoft Health AI" },
+    { "id": "t5", "day": "Friday",    "text": "Film reel #33 — Snap $400M AI deal" },
+    { "id": "t6", "day": "Saturday",  "text": "Run Design Agent + post carousel #44 — GPT-5.5 vs Claude vs Gemini" },
+    { "id": "t7", "day": "Sunday",    "text": "Review week, log engagement, prep Monday" }
   ]
 }
